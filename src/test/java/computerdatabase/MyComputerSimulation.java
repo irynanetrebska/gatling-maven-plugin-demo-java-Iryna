@@ -20,26 +20,18 @@ public class MyComputerSimulation extends Simulation {
             .doNotTrackHeader("1")
             .userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36");
 
-    private String uri2 = "https://fonts.googleapis.com/css2";
-
     ChainBuilder searchForComputer =
             exec(
                     http("LoadHomePage")
-                            .get("/computers")
-                            .resources(http("request_1")
-                                    .get(uri2 + "?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap")),
+                            .get("/computers"),
                             pause(2),
                     //SEARCH FOR COMPUTER
                     http("SearchComputers")
-                            .get("/computers?f=MacBook")
-                            .resources(http("request_3")
-                                    .get(uri2 + "?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap")),
+                            .get("/computers?f=MacBook"),
                             pause(2),
                     //LOAD SPECIFIC COMPUTER
                     http("LoadComputerDetails")
-                            .get("/computers/89")
-                            .resources(http("request_5")
-                                    .get(uri2 + "?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap")),
+                            .get("/computers/89"),
                             pause(2)
             );
 
@@ -54,10 +46,7 @@ public class MyComputerSimulation extends Simulation {
     ChainBuilder createComputer =
             exec(
                     http("LoadCreateComputerPage")
-                            .get("/computers/new")
-                            .resources(
-                                    http("request_13")
-                                            .get(uri2 + "?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap")),
+                            .get("/computers/new"),
                     pause(2),
                     //CREATE NEW COMPUTER
                     http("CreateNewComputer")
@@ -66,9 +55,6 @@ public class MyComputerSimulation extends Simulation {
                             .formParam("introduced", "2024-04-01")
                             .formParam("discontinued", "2024-05-02")
                             .formParam("company", "5")
-                            .resources(
-                                    http("request_15")
-                                            .get(uri2 + "?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap"))
             );
 
     private ScenarioBuilder admins = scenario("Admins")
@@ -79,8 +65,8 @@ public class MyComputerSimulation extends Simulation {
 
     {
         setUp(
-                admins.injectOpen(atOnceUsers(1)),
-                users.injectOpen(atOnceUsers(1))).protocols(httpProtocol);
+                admins.injectOpen(atOnceUsers(1000)),
+                users.injectOpen(atOnceUsers(1000))).protocols(httpProtocol);
     }
 }
 
